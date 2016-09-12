@@ -6,7 +6,7 @@ var mongoose = require('mongoose')
 var settings = require('../common/settings')
 var config = require('../common/config')
 var session = require('../common/session')
-var User = require('./user')
+var User = require('../user')
 
 var failMessage = 'Invalid email and password combination.'
 

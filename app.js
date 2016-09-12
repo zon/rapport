@@ -10,7 +10,7 @@ var mongoose = require('mongoose')
 var settings = require('./common/settings')
 var config = require('./common/config')
 
-var sessions = require('./routes/session')
+var sessions = require('./routes/sessions')
 var users = require('./routes/users')
 
 mongoose.Promise = Promise
@@ -71,6 +71,6 @@ app.use((err, req, res, next) => {
 
 var server = http.createServer(app)
 server.on('error', console.error)
-server.listen(8080, function() {console.log('Rapport ready!')})
+server.listen(8088, function() {console.log('Rapport ready!')})
 
 module.exports = server
