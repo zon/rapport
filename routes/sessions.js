@@ -22,7 +22,10 @@ router.route('/')
 				if (!settings.production)
 					console.log('  User:', user.email)
 
-				res.json(user.toPublicObject())
+				user.toJsonWebToken().then(token => res.json({
+					user: user.toPublicObject(),
+					token: token
+				}))
 			})
 			.catch(next)
 	})
@@ -37,7 +40,10 @@ router.route('/')
 				
 				if (user.checkPassword(req.body.password)) {
 					req.session.userId = user.id
-					res.json(user.toPublicObject())
+					user.toJsonWebToken().then(token => res.json({
+						user: user.toPublicObject(),
+						token: token
+					}))
 
 				} else {
 					res.badRequest({message: failMessage})

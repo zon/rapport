@@ -39,7 +39,10 @@ router.route('/')
 				.then(user => user.save())
 				.then(user => {
 					req.session.userId = user.id
-					res.json(user.toPublicObject())
+					user.toJsonWebToken().then(token => res.json({
+						user: user.toPublicObject(),
+						token: token
+					}))
 				})
 				.catch(next)
 
@@ -119,7 +122,10 @@ router.post('/reset-password', (req, res, next) => {
 					.then(user => user.save())
 					.then(user => {
 						req.session.userId = user.id
-						res.json(user.toPublicObject())
+						user.toJsonWebToken().then(token => res.json({
+							user: user.toPublicObject(),
+							token: token
+						}))
 					})
 					.catch(next)
 

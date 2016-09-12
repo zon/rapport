@@ -1,7 +1,10 @@
 var _ = require('lodash')
 var crypto = require('crypto')
+var jwt = require('jsonwebtoken')
 var mongoose = require('mongoose')
 var Promise = require('bluebird')
+
+var config = require('./common/config')
 
 Promise.promisifyAll(crypto)
 
@@ -42,6 +45,23 @@ User.prototype.checkPassword = function(password) {
 
 User.prototype.toPublicObject = function() {
 	return _.omit(this.toObject(), ['salt', 'hash', 'reset'])
+}
+
+User.prototype.toJsonWebToken = function() {
+	return new Promise((resolve, reject) => {
+		jwt.sign(this.toPublicObject(), config.jwt.secret, {
+			expiresIn: '1m'
+		}, (err, token) => {
+
+			console.log('TOKEN', err, token)
+
+			if (err) {
+				reject(err)
+			} else {
+				resolve(token)
+			}
+		})
+	})
 }
 
 module.exports = User
